@@ -1,0 +1,319 @@
+/* ArabCast BMS — Cleanup Layer */
+
+html,
+body{
+  max-width:100%;
+  overflow-x:hidden;
+}
+
+body.sidebar-open{
+  overflow:hidden;
+}
+
+.app-shell{
+  display:grid;
+  grid-template-columns:var(--sidebar-w) minmax(0,1fr);
+  min-height:100vh;
+}
+
+.content{
+  width:100%;
+  max-width:none;
+  min-width:0;
+}
+
+.sidebar{
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow:auto;
+}
+
+.mobile-sidebar-backdrop{
+  display:none;
+}
+
+.settings-manager-tools,
+.toolbar,
+.toolbar-group,
+.chips{
+  min-width:0;
+  max-width:100%;
+}
+
+.settings-manager-tools{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+}
+
+.settings-manager-tools > *{
+  flex:0 0 auto;
+}
+
+.settings-manager-tools .input,
+.settings-manager-tools input[type="search"]{
+  min-width:280px;
+  flex:1 1 360px;
+}
+
+.settings-action-dock{
+  position:fixed;
+  z-index:60;
+  inset-block-end:22px;
+  inset-inline-end:28px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  border-radius:22px;
+  background:rgba(10,16,30,.82);
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 22px 70px rgba(0,0,0,.42);
+  backdrop-filter:blur(18px);
+}
+
+.app-toast{
+  position:fixed;
+  z-index:120;
+  inset-block-end:24px;
+  inset-inline-start:50%;
+  transform:translateX(-50%) translateY(20px);
+  opacity:0;
+  visibility:hidden;
+  padding:12px 18px;
+  border-radius:999px;
+  color:#fff;
+  background:rgba(15,23,42,.92);
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 18px 50px rgba(0,0,0,.35);
+  backdrop-filter:blur(14px);
+  transition:.2s ease;
+}
+
+.app-toast.show{
+  opacity:1;
+  visibility:visible;
+  transform:translateX(-50%) translateY(0);
+}
+
+.app-toast[data-type="error"]{
+  background:rgba(127,29,29,.94);
+}
+
+.app-toast[data-type="success"]{
+  background:rgba(20,83,45,.94);
+}
+
+@media (max-width:960px){
+  .app-shell{
+    display:block;
+  }
+
+  .content{
+    padding:82px 14px 92px !important;
+  }
+
+  .mobile-topbar{
+    display:flex;
+    position:fixed;
+    inset-block-start:0;
+    inset-inline:0;
+    z-index:70;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:12px 14px;
+    background:rgba(7,10,20,.78);
+    border-bottom:1px solid rgba(255,255,255,.12);
+    backdrop-filter:blur(18px);
+  }
+
+  .sidebar{
+    position:fixed;
+    z-index:80;
+    top:0;
+    bottom:0;
+    right:-330px;
+    left:auto;
+    width:min(86vw,320px);
+    height:100dvh;
+    transform:none;
+    transition:right .3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow:-24px 0 80px rgba(0,0,0,.45);
+  }
+
+  .sidebar.open{
+    right:0;
+    transform:none;
+  }
+
+  .mobile-sidebar-backdrop{
+    display:block;
+    position:fixed;
+    z-index:75;
+    inset:0;
+    background:rgba(0,0,0,.52);
+    opacity:0;
+    visibility:hidden;
+    transition:.2s ease;
+  }
+
+  .mobile-sidebar-backdrop.show{
+    opacity:1;
+    visibility:visible;
+  }
+
+  .settings-action-dock{
+    inset-inline:12px;
+    inset-block-end:12px;
+    justify-content:space-between;
+    border-radius:20px;
+  }
+
+  .settings-action-dock .button{
+    flex:1;
+    padding-inline:10px;
+  }
+
+  .settings-manager-tools{
+    padding-bottom:6px;
+  }
+
+  .settings-manager-tools .input,
+  .settings-manager-tools input[type="search"]{
+    min-width:240px;
+  }
+}
+
+@media (min-width: 961px) {
+  /* Desktop Top Header Navigation Layout */
+  .app-shell {
+    display: block !important;
+    min-height: 100vh;
+  }
+
+  .sidebar {
+    position: sticky !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 72px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 24px !important;
+    background: linear-gradient(90deg, rgba(9, 11, 16, 0.95), rgba(13, 16, 24, 0.98)) !important;
+    border-bottom: 1px solid var(--border) !important;
+    border-inline-end: none !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35) !important;
+    z-index: 1000 !important;
+    overflow: visible !important;
+  }
+
+  .brand {
+    margin-bottom: 0 !important;
+    font-size: 20px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    flex-shrink: 0 !important;
+  }
+
+  .sidebar-section {
+    margin-bottom: 0 !important;
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  .sidebar-label {
+    display: none !important;
+  }
+
+  .side-nav {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 8px !important;
+  }
+
+  .side-link {
+    padding: 8px 14px !important;
+    border-radius: 12px !important;
+    font-size: 14px !important;
+    gap: 6px !important;
+  }
+  
+  .side-link.active::before {
+    display: none !important;
+  }
+
+  .sidebar-user {
+    margin-top: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    padding: 6px 12px !important;
+    border-radius: 14px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .sidebar-user-name {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+  }
+
+  .sidebar-user .muted {
+    font-size: 10px !important;
+  }
+
+  .sidebar-actions {
+    display: flex !important;
+    gap: 6px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .content {
+    width: 100% !important;
+    max-width: 1600px !important;
+    margin: 0 auto !important;
+    padding: 32px 24px 60px !important;
+  }
+
+  /* Admin Pages Overrides for Topbar */
+  body.page-settings .app-shell,
+  body.page-users .app-shell {
+    display: block !important;
+    padding: 0 !important;
+  }
+
+  body.page-settings .sidebar,
+  body.page-users .sidebar {
+    position: sticky !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 72px !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    background: linear-gradient(90deg, rgba(8, 15, 29, 0.96), rgba(4, 8, 17, 0.92)) !important;
+  }
+  
+  body.page-settings .sidebar-user-name,
+  body.page-users .sidebar-user-name,
+  body.page-settings .sidebar-actions,
+  body.page-users .sidebar-actions {
+    display: flex !important;
+  }
+
+  body.page-settings .settings-layout-pro .settings-page-head {
+    display: flex !important;
+  }
+}
