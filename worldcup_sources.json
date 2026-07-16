@@ -1,0 +1,7 @@
+{
+  "openfootballWorldCup2026": "https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json",
+  "purposeOpenFootball": "matches, groups, scores and goals",
+  "squadSource": "https://fdp.fifa.org/assetspublic/ce281/pdf/SquadLists-English.pdf",
+  "purposeSquadSource": "teams, coaches and player squad lists",
+  "note": "OpenFootball 2026 JSON is used as the matches source; player rosters are stored locally from FIFA SquadLists."
+}
