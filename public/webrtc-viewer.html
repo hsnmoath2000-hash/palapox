@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebRTC Viewer</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=20260617-professional-fix15">
+<link rel="stylesheet" href="/assets/css/arabcast-bms.css?v=20260617-professional-fix15">
+<link rel="stylesheet" href="/assets/css/arabcast-cleanup.css?v=20260716-clean-v2"></head>
+<body style="background:#000">
+  <main style="padding:0;margin:0">
+    <video id="viewer" autoplay playsinline controls muted style="width:100vw;height:100vh;background:#000"></video>
+    <div id="status" class="notice" style="position:fixed;top:12px;left:12px;right:12px;z-index:10">جاري تهيئة WebRTC...</div>
+  </main>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const sourceId = params.get('sourceId') || '';
+    const player = document.getElementById('viewer');
+    const statusBox = document.getElementById('status');
+    let viewerId = null;
+    let candidateTimer = null;
+    const pc = new RTCPeerConnection({ iceServers:[{ urls:'stun:stun.l.google.com:19302' }] });
+    function setStatus(text){ statusBox.textContent = text; }
+    async function api(url, options = {}) {
+      const res = await fetch(url, { headers:{'Content-Type':'application/json'}, credentials:'same-origin', ...options });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Request failed');
+      return data;
+    }
+    pc.ontrack = (e) => {
+      player.srcObject = e.streams[0];
+      player.play().catch(()=>null);
+      setStatus('تم استقبال البث WebRTC.');
+    };
+    pc.onicecandidate = e => {
+      if (viewerId && e.candidate) api(`/api/webrtc/sources/${encodeURIComponent(sourceId)}/viewers/${encodeURIComponent(viewerId)}/candidates?from=viewer`, { method:'POST', body:JSON.stringify({ candidate:e.candidate }) }).catch(()=>null);
+    };
+    async function start(){
+      if (!sourceId) return setStatus('لا يوجد sourceId.');
+      pc.addTransceiver('video', { direction:'recvonly' });
+      pc.addTransceiver('audio', { direction:'recvonly' });
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+      const created = await api(`/api/webrtc/sources/${encodeURIComponent(sourceId)}/viewers`, { method:'POST', body:JSON.stringify({ offer: pc.localDescription }) });
+      viewerId = created.viewerId;
+      setStatus('تم تسجيل المشاهد. جاري انتظار الرد...');
+      candidateTimer = setInterval(async () => {
+        const answerData = await api(`/api/webrtc/sources/${encodeURIComponent(sourceId)}/viewers/${encodeURIComponent(viewerId)}/answer`);
+        if (answerData.answer && !pc.currentRemoteDescription) {
+          await pc.setRemoteDescription(answerData.answer);
+          setStatus('تم الربط. جاري استقبال البث...');
+        }
+        const candData = await api(`/api/webrtc/sources/${encodeURIComponent(sourceId)}/viewers/${encodeURIComponent(viewerId)}/candidates?for=viewer`);
+        for (const candidate of (candData.items || [])) {
+          try { await pc.addIceCandidate(candidate); } catch {}
+        }
+      }, 1000);
+    }
+    window.addEventListener('beforeunload', () => {
+      if (candidateTimer) clearInterval(candidateTimer);
+      if (viewerId) navigator.sendBeacon(`/api/webrtc/sources/${encodeURIComponent(sourceId)}/viewers/${encodeURIComponent(viewerId)}`, new Blob([], { type:'application/json' }));
+      try { pc.close(); } catch {}
+    });
+    start().catch(err => setStatus(err.message));
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+

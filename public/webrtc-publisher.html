@@ -1,0 +1,381 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebRTC Publisher</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=20260617-professional-fix15">
+<link rel="stylesheet" href="/assets/css/arabcast-bms.css?v=20260617-professional-fix15">
+<link rel="stylesheet" href="/assets/css/arabcast-cleanup.css?v=20260716-clean-v2"></head>
+<body>
+  <main class="page-shell" style="padding:24px;max-width:1400px;margin:0 auto">
+    <section class="config-card">
+      <div class="section-header">
+        <div>
+          <h1 class="section-title">لوحة ناشر WebRTC</h1>
+          <div class="section-subtitle">تشغيل أكثر من بث في نفس الوقت من نفس الصفحة. كل بطاقة تمثل مصدرًا مستقلًا.</div>
+        </div>
+        <div class="toolbar-group">
+          <button id="refresh-devices" class="button secondary">تحديث الأجهزة</button>
+          <button id="add-publisher" class="button">إضافة بث</button>
+        </div>
+      </div>
+      <div id="global-status" class="notice" style="margin-top:16px">جاري تحميل المصادر والأجهزة...</div>
+    </section>
+    <section id="publishers" class="config-stack" style="margin-top:18px"></section>
+  </main>
+  <template id="publisher-card-template">
+    <section class="config-card publisher-card">
+      <div class="section-header">
+        <div>
+          <h3 class="panel-title publisher-title">بث جديد</h3>
+          <div class="section-subtitle publisher-subtitle">حدد المصدر ثم اختر أجهزة الالتقاط.</div>
+        </div>
+        <div class="toolbar-group">
+          <button class="button success pub-start" type="button">بدء</button>
+          <button class="button danger pub-stop" type="button">إيقاف</button>
+          <button class="button secondary pub-remove" type="button">حذف</button>
+        </div>
+      </div>
+      <div class="settings-grid settings-grid-2" style="margin-top:16px">
+        <div>
+          <label>المصدر</label>
+          <select class="select pub-source"></select>
+        </div>
+        <div>
+          <label>الكاميرا</label>
+          <select class="select pub-video"></select>
+        </div>
+        <div>
+          <label>الميكروفون</label>
+          <select class="select pub-audio"></select>
+        </div>
+        <div>
+          <label>رابط المشاهدة</label>
+          <input class="input pub-viewer-url" readonly>
+        </div>
+      </div>
+      <div class="notice pub-status" style="margin-top:16px">جاهز.</div>
+      <video class="pub-preview" autoplay muted playsinline style="width:100%;margin-top:16px;border-radius:18px;background:#000"></video>
+    </section>
+  </template>
+  <script>
+    const qs = (s, parent=document) => parent.querySelector(s);
+    const params = new URLSearchParams(location.search);
+    const publishersWrap = qs('#publishers');
+    const globalStatus = qs('#global-status');
+    const template = qs('#publisher-card-template');
+    const STORAGE_KEY = 'lms-webrtc-publisher-v1';
+
+    const state = {
+      sources: [],
+      devices: { video: [], audio: [] },
+      cards: new Map(),
+      nextCardId: 1,
+      settings: { webrtcPublisherAutoStart: false }
+    };
+
+    function setGlobalStatus(text){ globalStatus.textContent = text; }
+    function safeText(value=''){ return String(value || ''); }
+    function viewerUrlForSource(sourceId=''){ return `${location.origin}/webrtc-viewer?sourceId=${encodeURIComponent(sourceId)}`; }
+    function loadStoredState(){
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : { publishers: [] };
+      } catch {
+        return { publishers: [] };
+      }
+    }
+    function saveStoredState(){
+      try {
+        const publishers = [...state.cards.values()].map(cardState => ({
+          sourceId: cardState.sourceId || '',
+          videoDeviceId: cardState.videoDeviceId || '',
+          audioDeviceId: cardState.audioDeviceId || '',
+          videoLabel: state.devices.video.find(d => d.deviceId === cardState.videoDeviceId)?.label || '',
+          audioLabel: state.devices.audio.find(d => d.deviceId === cardState.audioDeviceId)?.label || ''
+        })).filter(item => item.sourceId || item.videoDeviceId || item.audioDeviceId);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ publishers, savedAt: new Date().toISOString() }));
+      } catch {}
+    }
+    function findStoredEntryForSource(sourceId='', stored=null){
+      const publishers = Array.isArray(stored?.publishers) ? stored.publishers : [];
+      return publishers.find(item => item.sourceId === sourceId) || null;
+    }
+    function resolveDeviceId(devices=[], preferredId='', preferredLabel=''){
+      if (preferredId && devices.some(device => device.deviceId === preferredId)) return preferredId;
+      if (preferredLabel) {
+        const match = devices.find(device => safeText(device.label).trim() === safeText(preferredLabel).trim());
+        if (match) return match.deviceId;
+      }
+      return '';
+    }
+
+    async function api(url, options = {}) {
+      const res = await fetch(url, {
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        ...options
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Request failed');
+      return data;
+    }
+    async function ensureAdminAccess(){
+      const auth = await api('/api/auth/status');
+      if (!auth.authenticated || auth.user?.role !== 'admin') {
+        location.href = '/login';
+        throw new Error('يجب تسجيل الدخول بحساب مسؤول للوصول إلى لوحة الناشر.');
+      }
+      return auth;
+    }
+
+    async function loadSources(){
+      const meta = await api('/api/meta');
+      state.sources = (meta.sources || []).filter(x => x.sourceType === 'webrtc' || safeText(x.streamUrl).includes('/webrtc-viewer?sourceId='));
+      return state.sources;
+    }
+    async function loadSettings(){
+      const cfg = await api('/api/settings');
+      state.settings = {
+        webrtcPublisherAutoStart: !!cfg.system?.webrtcPublisherAutoStart
+      };
+      return state.settings;
+    }
+
+    async function loadDevices(){
+      await navigator.mediaDevices.getUserMedia({ video:true, audio:true }).catch(()=>null);
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      state.devices.video = devices.filter(d => d.kind === 'videoinput');
+      state.devices.audio = devices.filter(d => d.kind === 'audioinput');
+      return state.devices;
+    }
+
+    function sourceOptions(selected=''){
+      return state.sources.map(src => `<option value="${src.id}" ${src.id === selected ? 'selected' : ''}>${src.name} (${src.id})</option>`).join('');
+    }
+
+    function videoOptions(selected=''){
+      return state.devices.video.map(d => `<option value="${d.deviceId}" ${d.deviceId === selected ? 'selected' : ''}>${d.label || 'Camera'}</option>`).join('');
+    }
+
+    function audioOptions(selected=''){
+      return [`<option value="">بدون صوت</option>`]
+        .concat(state.devices.audio.map(d => `<option value="${d.deviceId}" ${d.deviceId === selected ? 'selected' : ''}>${d.label || 'Microphone'}</option>`))
+        .join('');
+    }
+
+    function sourceById(sourceId){
+      return state.sources.find(src => src.id === sourceId) || null;
+    }
+
+    function setCardStatus(cardState, text){
+      cardState.statusEl.textContent = text;
+    }
+
+    function refreshCardUi(cardState){
+      const currentSource = sourceById(cardState.sourceId) || state.sources[0] || null;
+      if (currentSource && !cardState.sourceId) cardState.sourceId = currentSource.id;
+      cardState.sourceSelect.innerHTML = sourceOptions(cardState.sourceId);
+      cardState.videoSelect.innerHTML = videoOptions(cardState.videoDeviceId);
+      cardState.audioSelect.innerHTML = audioOptions(cardState.audioDeviceId);
+      cardState.viewerUrl.value = viewerUrlForSource(cardState.sourceId || '');
+      cardState.titleEl.textContent = currentSource ? (currentSource.name || 'بث جديد') : 'بث جديد';
+      cardState.subtitleEl.textContent = currentSource
+        ? `المصدر الحالي: ${currentSource.id}`
+        : 'لا توجد مصادر WebRTC مفعلة حالياً.';
+      if (!cardState.videoDeviceId && state.devices.video[0]) {
+        cardState.videoDeviceId = state.devices.video[0].deviceId;
+        cardState.videoSelect.value = cardState.videoDeviceId;
+      }
+      if (!cardState.audioDeviceId) cardState.audioSelect.value = '';
+    }
+
+    async function createLocalStream(cardState){
+      if (cardState.localStream) cardState.localStream.getTracks().forEach(track => track.stop());
+      const constraints = {
+        video: cardState.videoDeviceId ? { deviceId: { exact: cardState.videoDeviceId } } : true,
+        audio: cardState.audioDeviceId ? { deviceId: { exact: cardState.audioDeviceId } } : false
+      };
+      cardState.localStream = await navigator.mediaDevices.getUserMedia(constraints);
+      cardState.preview.srcObject = cardState.localStream;
+      return cardState.localStream;
+    }
+
+    async function ensurePeer(cardState, viewer){
+      if (cardState.peerMap.has(viewer.id)) return cardState.peerMap.get(viewer.id);
+      const pc = new RTCPeerConnection({ iceServers:[{ urls:'stun:stun.l.google.com:19302' }] });
+      cardState.localStream.getTracks().forEach(track => pc.addTrack(track, cardState.localStream));
+      pc.onicecandidate = event => {
+        if (!event.candidate) return;
+        api(`/api/webrtc/sources/${encodeURIComponent(cardState.sourceId)}/viewers/${encodeURIComponent(viewer.id)}/candidates?from=publisher`, {
+          method: 'POST',
+          body: JSON.stringify({ candidate: event.candidate })
+        }).catch(()=>null);
+      };
+      await pc.setRemoteDescription({ type:'offer', sdp: viewer.offer?.sdp });
+      const answer = await pc.createAnswer();
+      await pc.setLocalDescription(answer);
+      await api(`/api/webrtc/sources/${encodeURIComponent(cardState.sourceId)}/viewers/${encodeURIComponent(viewer.id)}/answer`, {
+        method: 'POST',
+        body: JSON.stringify({ answer: pc.localDescription })
+      });
+      cardState.peerMap.set(viewer.id, pc);
+      return pc;
+    }
+
+    async function pollViewers(cardState){
+      if (!cardState.sourceId || !cardState.localStream) return;
+      const data = await api(`/api/webrtc/sources/${encodeURIComponent(cardState.sourceId)}/publisher/viewers`);
+      for (const viewer of (data.items || [])) {
+        const pc = await ensurePeer(cardState, viewer);
+        const candData = await api(`/api/webrtc/sources/${encodeURIComponent(cardState.sourceId)}/viewers/${encodeURIComponent(viewer.id)}/candidates?for=publisher`);
+        for (const candidate of (candData.items || [])) {
+          try { await pc.addIceCandidate(candidate); } catch {}
+        }
+      }
+      setCardStatus(cardState, `النشر يعمل الآن. عدد المشاهدين: ${data.items?.length || 0}`);
+    }
+
+    async function startPublishing(cardState){
+      if (!cardState.sourceId) return setCardStatus(cardState, 'اختر المصدر أولاً.');
+      if (!cardState.videoDeviceId && state.devices.video[0]) cardState.videoDeviceId = state.devices.video[0].deviceId;
+      if (!cardState.videoDeviceId) return setCardStatus(cardState, 'لا توجد كاميرا متاحة لهذا البث.');
+      await createLocalStream(cardState);
+      await api(`/api/webrtc/sources/${encodeURIComponent(cardState.sourceId)}/publisher/heartbeat`, { method:'POST', body:'{}' });
+      if (cardState.heartbeatTimer) clearInterval(cardState.heartbeatTimer);
+      if (cardState.viewersTimer) clearInterval(cardState.viewersTimer);
+      cardState.heartbeatTimer = setInterval(() => {
+        api(`/api/webrtc/sources/${encodeURIComponent(cardState.sourceId)}/publisher/heartbeat`, { method:'POST', body:'{}' }).catch(()=>null);
+      }, 5000);
+      cardState.viewersTimer = setInterval(() => {
+        pollViewers(cardState).catch(err => setCardStatus(cardState, err.message));
+      }, 1200);
+      await pollViewers(cardState).catch(err => setCardStatus(cardState, err.message));
+    }
+
+    function stopPublishing(cardState, message='تم إيقاف النشر.'){
+      if (cardState.heartbeatTimer) clearInterval(cardState.heartbeatTimer);
+      if (cardState.viewersTimer) clearInterval(cardState.viewersTimer);
+      cardState.heartbeatTimer = null;
+      cardState.viewersTimer = null;
+      cardState.peerMap.forEach(pc => { try { pc.close(); } catch {} });
+      cardState.peerMap.clear();
+      if (cardState.localStream) cardState.localStream.getTracks().forEach(track => track.stop());
+      cardState.localStream = null;
+      cardState.preview.srcObject = null;
+      setCardStatus(cardState, message);
+    }
+
+    function removeCard(cardId){
+      const cardState = state.cards.get(cardId);
+      if (!cardState) return;
+      stopPublishing(cardState, 'تم حذف البطاقة.');
+      cardState.element.remove();
+      state.cards.delete(cardId);
+      if (!state.cards.size) addPublisherCard();
+    }
+
+    function addPublisherCard(initialSourceId='', storedEntry=null){
+      const fragment = template.content.cloneNode(true);
+      const element = fragment.querySelector('.publisher-card');
+      const cardId = `pub-${state.nextCardId++}`;
+      const cardState = {
+        id: cardId,
+        element,
+        sourceId: initialSourceId,
+        videoDeviceId: resolveDeviceId(state.devices.video, storedEntry?.videoDeviceId || '', storedEntry?.videoLabel || ''),
+        audioDeviceId: resolveDeviceId(state.devices.audio, storedEntry?.audioDeviceId || '', storedEntry?.audioLabel || ''),
+        localStream: null,
+        peerMap: new Map(),
+        heartbeatTimer: null,
+        viewersTimer: null,
+        sourceSelect: qs('.pub-source', element),
+        videoSelect: qs('.pub-video', element),
+        audioSelect: qs('.pub-audio', element),
+        viewerUrl: qs('.pub-viewer-url', element),
+        statusEl: qs('.pub-status', element),
+        preview: qs('.pub-preview', element),
+        titleEl: qs('.publisher-title', element),
+        subtitleEl: qs('.publisher-subtitle', element)
+      };
+      refreshCardUi(cardState);
+      cardState.sourceSelect.addEventListener('change', () => {
+        cardState.sourceId = cardState.sourceSelect.value || '';
+        cardState.viewerUrl.value = viewerUrlForSource(cardState.sourceId || '');
+        const currentSource = sourceById(cardState.sourceId);
+        cardState.titleEl.textContent = currentSource ? (currentSource.name || 'بث جديد') : 'بث جديد';
+        cardState.subtitleEl.textContent = currentSource ? `المصدر الحالي: ${currentSource.id}` : 'اختر مصدرًا صالحًا.';
+        saveStoredState();
+      });
+      cardState.videoSelect.addEventListener('change', () => { cardState.videoDeviceId = cardState.videoSelect.value || ''; saveStoredState(); });
+      cardState.audioSelect.addEventListener('change', () => { cardState.audioDeviceId = cardState.audioSelect.value || ''; saveStoredState(); });
+      qs('.pub-start', element).addEventListener('click', () => startPublishing(cardState).catch(err => setCardStatus(cardState, err.message)));
+      qs('.pub-stop', element).addEventListener('click', () => stopPublishing(cardState));
+      qs('.pub-remove', element).addEventListener('click', () => removeCard(cardId));
+      publishersWrap.appendChild(fragment);
+      state.cards.set(cardId, cardState);
+      if (cardState.videoDeviceId) cardState.videoSelect.value = cardState.videoDeviceId;
+      if (cardState.audioDeviceId) cardState.audioSelect.value = cardState.audioDeviceId;
+      saveStoredState();
+      return cardState;
+    }
+
+    function refreshAllCards(){
+      state.cards.forEach(cardState => refreshCardUi(cardState));
+    }
+
+    async function bootstrap(){
+      await ensureAdminAccess();
+      const sourceIdsParam = safeText(params.get('sourceIds') || '').split(',').map(x => x.trim()).filter(Boolean);
+      const singleSourceId = safeText(params.get('sourceId') || '').trim();
+      const initialSourceIds = sourceIdsParam.length ? sourceIdsParam : (singleSourceId ? [singleSourceId] : []);
+      const stored = loadStoredState();
+      await Promise.all([loadSources(), loadDevices(), loadSettings()]);
+      setGlobalStatus(`تم تحميل ${state.sources.length} مصدر WebRTC و ${state.devices.video.length} كاميرا و ${state.devices.audio.length} جهاز صوت. ${state.settings.webrtcPublisherAutoStart ? 'التشغيل التلقائي مفعّل.' : 'التشغيل التلقائي معطّل.'}`);
+      if (!state.sources.length) {
+        addPublisherCard('');
+        state.cards.forEach(card => setCardStatus(card, 'لا توجد مصادر WebRTC مفعلة حالياً من داخل النظام.'));
+        return;
+      }
+      if (initialSourceIds.length) {
+        initialSourceIds.forEach(sourceId => addPublisherCard(sourceId, findStoredEntryForSource(sourceId, stored)));
+      } else if (Array.isArray(stored.publishers) && stored.publishers.length) {
+        stored.publishers.forEach(entry => {
+          addPublisherCard(entry.sourceId || state.sources[0].id, entry);
+        });
+      } else {
+        initialSourceIds.push(state.sources[0].id);
+        initialSourceIds.forEach(sourceId => addPublisherCard(sourceId, findStoredEntryForSource(sourceId, stored)));
+      }
+      refreshAllCards();
+      if (state.settings.webrtcPublisherAutoStart) {
+        state.cards.forEach(cardState => {
+          if (cardState.sourceId) startPublishing(cardState).catch(err => setCardStatus(cardState, err.message));
+        });
+      } else {
+        state.cards.forEach(cardState => setCardStatus(cardState, 'تم تحميل الإعدادات المحفوظة. اضغط بدء للتشغيل أو فعّل التشغيل التلقائي من الإعدادات الأساسية.'));
+      }
+    }
+
+    qs('#refresh-devices').addEventListener('click', () => {
+      loadDevices()
+        .then(() => {
+          refreshAllCards();
+          setGlobalStatus(`تم تحديث الأجهزة. الكاميرات: ${state.devices.video.length}، الصوت: ${state.devices.audio.length}.`);
+        })
+        .catch(err => setGlobalStatus(err.message));
+    });
+    qs('#add-publisher').addEventListener('click', () => addPublisherCard(state.sources[0]?.id || ''));
+    window.addEventListener('beforeunload', () => state.cards.forEach(cardState => stopPublishing(cardState, 'تم إيقاف النشر.')));
+    bootstrap().catch(err => setGlobalStatus(err.message));
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
