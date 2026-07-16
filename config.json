@@ -1,0 +1,1119 @@
+{
+  "server": {
+    "port": 80,
+    "host": "0.0.0.0",
+    "sessionSecret": "change-me-now",
+    "publicBaseUrl": ""
+  },
+  "system": {
+    "name": "سام TV",
+    "iconText": "⭐",
+    "logoUrl": "",
+    "homeMessage": "مرحبا بكم في سام الخاصة بنا",
+    "webrtcPublisherAutoStart": false,
+    "setupProfile": "live"
+  },
+  "admin": {
+    "username": "admin",
+    "password": "123123123"
+  },
+  "performance": {
+    "pageSize": 48,
+    "newestLimit": 24
+  },
+  "bandwidth": {
+    "enabled": false,
+    "limitKBps": 0,
+    "burstSeconds": 3,
+    "applyToMedia": true,
+    "applyToLive": false,
+    "applyToTranscode": true
+  },
+  "mediaTranscode": {
+    "hwAccel": "cpu",
+    "qualityProfile": "mobile",
+    "audioBitrate": "128k",
+    "hlsTime": 2,
+    "hlsListSize": 6
+  },
+  "libraries": [],
+  "iptv": {
+    "sources": [
+      {
+        "id": "iptv-main",
+        "name": "القناة الثانية",
+        "sourceType": "hls",
+        "m3uPath": "http://192.168.3.2:8000/playlist.m3u8",
+        "epgPath": "",
+        "m3uInputMode": "auto",
+        "groupTitle": "كأس العالم",
+        "channelName": "القناة الثانية",
+        "deviceName": "",
+        "audioDeviceName": "",
+        "deliveryMode": "hls",
+        "streamUrl": "",
+        "inputUrl": "http://192.168.3.2:8000/play/a00p/index.m3u8",
+        "webrtcEmbedUrl": "",
+        "logo": "assets/img/ch.jpg",
+        "description": "",
+        "requestHeaders": {},
+        "userAgent": "",
+        "referer": "",
+        "enabled": true,
+        "autoStart": true,
+        "showOnHome": true,
+        "resolutionPreset": "480p",
+        "outputWidth": 0,
+        "outputHeight": 0,
+        "hlsTime": 2,
+        "hlsListSize": 6,
+        "videoBitrate": "1200k",
+        "maxRate": "1500k",
+        "bufSize": "2500k",
+        "audioBitrate": "96k",
+        "frameRate": 24,
+        "hwAccel": "cpu",
+        "relayMode": "auto",
+        "ffmpegPath": "",
+        "ffmpegInput": "",
+        "ffmpegCommand": "",
+        "rtmpIngest": false,
+        "rtmpStreamKey": "",
+        "skipStartupProbe": true,
+        "egressEnabled": false,
+        "egressType": "rtmp",
+        "egressUrl": "rtmp://13.140.180.9:1936/live/rtmp-channel-01",
+        "egressVideoMode": "transcode",
+        "egressHwAccel": "same",
+        "egressResolutionPreset": "same",
+        "egressOutputWidth": 0,
+        "egressOutputHeight": 0,
+        "egressVideoBitrate": "",
+        "egressMaxRate": "",
+        "egressBufSize": "",
+        "egressAudioBitrate": "",
+        "egressFrameRate": 0,
+        "egressLowLatency": true,
+        "egressFifo": false,
+        "egressFifoQueue": 1200,
+        "egressHlsTime": 0,
+        "egressHlsListSize": 0
+      },
+      {
+        "id": "source-1782768309730",
+        "name": "القناة الاولى",
+        "sourceType": "hls",
+        "m3uPath": "",
+        "epgPath": "",
+        "m3uInputMode": "auto",
+        "groupTitle": "كأس العالم",
+        "channelName": "القناة الاولى",
+        "deviceName": "",
+        "audioDeviceName": "",
+        "deliveryMode": "hls",
+        "streamUrl": "",
+        "inputUrl": "http://192.168.3.2:8000/play/a00o/index.m3u8",
+        "webrtcEmbedUrl": "",
+        "logo": "assets/img/ch.jpg",
+        "description": "هاتف",
+        "requestHeaders": {},
+        "userAgent": "",
+        "referer": "",
+        "enabled": true,
+        "autoStart": true,
+        "showOnHome": true,
+        "resolutionPreset": "480p",
+        "outputWidth": 0,
+        "outputHeight": 0,
+        "hlsTime": 2,
+        "hlsListSize": 6,
+        "videoBitrate": "1200k",
+        "maxRate": "1500k",
+        "bufSize": "2500k",
+        "audioBitrate": "96k",
+        "frameRate": 24,
+        "hwAccel": "cpu",
+        "relayMode": "auto",
+        "ffmpegPath": "",
+        "ffmpegInput": "",
+        "ffmpegCommand": "",
+        "rtmpIngest": false,
+        "rtmpStreamKey": "",
+        "skipStartupProbe": true,
+        "egressEnabled": false,
+        "egressType": "rtmp",
+        "egressUrl": "rtmp://13.140.180.9:1936/live/rtmp-ingest-main",
+        "egressVideoMode": "transcode",
+        "egressHwAccel": "same",
+        "egressResolutionPreset": "same",
+        "egressOutputWidth": 0,
+        "egressOutputHeight": 0,
+        "egressVideoBitrate": "",
+        "egressMaxRate": "",
+        "egressBufSize": "",
+        "egressAudioBitrate": "",
+        "egressFrameRate": 0,
+        "egressLowLatency": true,
+        "egressFifo": true,
+        "egressFifoQueue": 1200,
+        "egressHlsTime": 0,
+        "egressHlsListSize": 0
+      },
+      {
+        "id": "source-1783727225632",
+        "name": "جهاز بث مباشر",
+        "sourceType": "m3u",
+        "m3uPath": "http://127.0.0.1/server.m3u",
+        "epgPath": "",
+        "m3uInputMode": "playlist",
+        "groupTitle": "المنضومة",
+        "channelName": "جهاز بث مباشر",
+        "deviceName": "",
+        "audioDeviceName": "",
+        "deliveryMode": "hls",
+        "streamUrl": "",
+        "inputUrl": "",
+        "webrtcEmbedUrl": "",
+        "logo": "",
+        "description": "",
+        "requestHeaders": {},
+        "userAgent": "",
+        "referer": "",
+        "enabled": true,
+        "autoStart": true,
+        "showOnHome": true,
+        "resolutionPreset": "source",
+        "outputWidth": 0,
+        "outputHeight": 0,
+        "hlsTime": 2,
+        "hlsListSize": 6,
+        "videoBitrate": "1800k",
+        "maxRate": "2200k",
+        "bufSize": "4000k",
+        "audioBitrate": "96k",
+        "frameRate": 25,
+        "hwAccel": "cpu",
+        "relayMode": "copy",
+        "ffmpegPath": "",
+        "ffmpegInput": "",
+        "ffmpegCommand": "",
+        "rtmpIngest": false,
+        "rtmpStreamKey": "",
+        "skipStartupProbe": true,
+        "egressEnabled": false,
+        "egressType": "srt",
+        "egressUrl": "",
+        "egressVideoMode": "same",
+        "egressHwAccel": "same",
+        "egressResolutionPreset": "same",
+        "egressOutputWidth": 0,
+        "egressOutputHeight": 0,
+        "egressVideoBitrate": "",
+        "egressMaxRate": "",
+        "egressBufSize": "",
+        "egressAudioBitrate": "",
+        "egressFrameRate": 0,
+        "egressLowLatency": true,
+        "egressFifo": true,
+        "egressFifoQueue": 600,
+        "egressHlsTime": 1,
+        "egressHlsListSize": 4
+      },
+      {
+        "id": "yacine-tv-auto",
+        "name": "Yacine TV Auto",
+        "sourceType": "m3u",
+        "m3uPath": "data\\yacine-tv-auto.m3u",
+        "epgPath": "",
+        "m3uInputMode": "playlist",
+        "groupTitle": "Yacine TV",
+        "channelName": "Yacine TV Auto",
+        "deviceName": "",
+        "audioDeviceName": "",
+        "deliveryMode": "hls",
+        "streamUrl": "",
+        "inputUrl": "",
+        "webrtcEmbedUrl": "",
+        "logo": "",
+        "description": "Auto-refreshed Yacine TV playlist",
+        "requestHeaders": {},
+        "userAgent": "",
+        "referer": "",
+        "enabled": true,
+        "autoStart": true,
+        "showOnHome": true,
+        "resolutionPreset": "source",
+        "outputWidth": 0,
+        "outputHeight": 0,
+        "hlsTime": 1,
+        "hlsListSize": 0,
+        "videoBitrate": "",
+        "maxRate": "",
+        "bufSize": "",
+        "audioBitrate": "",
+        "frameRate": 0,
+        "hwAccel": "cpu",
+        "relayMode": "copy",
+        "ffmpegPath": "",
+        "ffmpegInput": "",
+        "ffmpegCommand": "",
+        "rtmpIngest": false,
+        "rtmpStreamKey": "",
+        "skipStartupProbe": true,
+        "egressEnabled": false,
+        "egressType": "srt",
+        "egressUrl": "",
+        "egressVideoMode": "same",
+        "egressHwAccel": "same",
+        "egressResolutionPreset": "same",
+        "egressOutputWidth": 0,
+        "egressOutputHeight": 0,
+        "egressVideoBitrate": "",
+        "egressMaxRate": "",
+        "egressBufSize": "",
+        "egressAudioBitrate": "",
+        "egressFrameRate": 0,
+        "egressLowLatency": true,
+        "egressFifo": true,
+        "egressFifoQueue": 600,
+        "egressHlsTime": 0,
+        "egressHlsListSize": 0
+      }
+    ],
+    "disableGroups": false,
+    "keepRelaysAlive": false,
+    "disabledGroups": []
+  },
+  "auth": {
+    "allowSelfRegistration": true,
+    "requireLoginForViewing": false,
+    "autoRegisterDevices": true
+  },
+  "scan": {
+    "autoStartOnEmptyIndex": false,
+    "yieldEvery": 220,
+    "statusUpdateEvery": 100,
+    "followSymlinks": false,
+    "autoDailyTwice": false,
+    "scheduleTimes": [
+      "06:00",
+      "18:00"
+    ],
+    "lastScheduledRuns": {
+      "18:00": "2026-07-13",
+      "06:00": "2026-07-13"
+    }
+  },
+  "usbCapture": {
+    "ffmpegPath": "runtime/ffmpeg/bin/ffmpeg.exe",
+    "outputRoot": "",
+    "publicBaseUrl": "",
+    "publicBasePath": "/live-streams",
+    "hlsTime": 2,
+    "hlsListSize": 6,
+    "resolutionPreset": "720p",
+    "outputWidth": 0,
+    "outputHeight": 0,
+    "videoBitrate": "1800k",
+    "maxRate": "2200k",
+    "bufSize": "3500k",
+    "audioBitrate": "96k",
+    "frameRate": 25,
+    "hwAccel": "auto"
+  },
+  "libraryConvertJobs": [],
+  "diagnostics": {
+    "generatedAt": "2026-07-16T02:42:16.175Z",
+    "app": {
+      "name": "light-media-server",
+      "version": "11.0.0",
+      "systemName": "سام TV",
+      "profile": "live"
+    },
+    "server": {
+      "host": "0.0.0.0",
+      "port": 80,
+      "publicBaseUrl": "",
+      "appBaseUrl": "http://localhost:80"
+    },
+    "binaries": {
+      "ffmpeg": {
+        "path": "runtime/ffmpeg/bin/ffmpeg.exe",
+        "usesPathLookup": false,
+        "exists": true,
+        "ok": true,
+        "version": "ffmpeg version 8.1.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+        "error": ""
+      },
+      "ffprobe": {
+        "path": "runtime\\ffmpeg\\bin\\ffprobe.exe",
+        "usesPathLookup": false,
+        "exists": true,
+        "ok": false,
+        "version": "",
+        "error": "spawnSync runtime\\ffmpeg\\bin\\ffprobe.exe ETIMEDOUT"
+      }
+    },
+    "mediaTranscode": {
+      "hwAccel": "cpu",
+      "qualityProfile": "mobile",
+      "audioBitrate": "128k",
+      "hlsTime": 2,
+      "hlsListSize": 6,
+      "encoder": "CPU / libx264",
+      "cpuCores": 40
+    },
+    "counts": {
+      "movies": 0,
+      "series": 0,
+      "audio": 0,
+      "total": 0,
+      "channels": 2,
+      "users": 2
+    },
+    "scan": {
+      "running": false,
+      "stage": "done",
+      "libraryId": null,
+      "libraryName": null,
+      "startedAt": "2026-07-16T02:41:05.411Z",
+      "endedAt": "2026-07-16T02:41:05.660Z",
+      "message": "اكتمل الفحص الكامل.",
+      "progress": {
+        "percent": 100,
+        "processedDirs": 0,
+        "discovered": 0,
+        "errors": 0
+      }
+    },
+    "libraries": [],
+    "sources": [
+      {
+        "id": "iptv-main",
+        "name": "القناة الثانية",
+        "type": "hls",
+        "deliveryMode": "hls",
+        "autoStart": true,
+        "showOnHome": true,
+        "streamUrl": "/live-streams/iptv-main/index.m3u8",
+        "state": "running",
+        "encoder": "CPU / libx264",
+        "resolution": "480p",
+        "message": "[vist#0:0/h264 @ 00000189b9205780] [dec:h264 @ 00000189b7388540] corrupt decoded frame"
+      },
+      {
+        "id": "source-1782768309730",
+        "name": "القناة الاولى",
+        "type": "hls",
+        "deliveryMode": "hls",
+        "autoStart": true,
+        "showOnHome": true,
+        "streamUrl": "/live-streams/source-1782768309730/index.m3u8",
+        "state": "running",
+        "encoder": "CPU / libx264",
+        "resolution": "480p",
+        "message": "[h264 @ 0000023b69e2d840] non-existing PPS 0 referenced\r\n[h264 @ 0000023b69e2d840] no frame!"
+      },
+      {
+        "id": "source-1783727225632",
+        "name": "جهاز بث مباشر",
+        "type": "m3u",
+        "deliveryMode": "hls",
+        "autoStart": true,
+        "showOnHome": true,
+        "streamUrl": "/live-streams/source-1783727225632/index.m3u8",
+        "state": "idle",
+        "encoder": "CPU / libx264",
+        "resolution": "source",
+        "message": ""
+      },
+      {
+        "id": "yacine-tv-auto",
+        "name": "Yacine TV Auto",
+        "type": "m3u",
+        "deliveryMode": "hls",
+        "autoStart": true,
+        "showOnHome": true,
+        "streamUrl": "/live-streams/yacine-tv-auto/index.m3u8",
+        "state": "idle",
+        "encoder": "CPU / libx264",
+        "resolution": "source",
+        "message": ""
+      }
+    ],
+    "storage": [
+      {
+        "id": "config",
+        "path": "E:\\media\\config.json",
+        "exists": true,
+        "readable": true,
+        "kind": "file",
+        "size": 36043,
+        "modifiedAt": "2026-07-16T02:42:08.405Z",
+        "error": "",
+        "sizeLabel": "35.2 KB"
+      },
+      {
+        "id": "appDb",
+        "path": "E:\\media\\data\\app.sqlite",
+        "exists": true,
+        "readable": true,
+        "kind": "file",
+        "size": 69632,
+        "modifiedAt": "2026-07-16T02:30:49.832Z",
+        "error": "",
+        "sizeLabel": "68.0 KB"
+      },
+      {
+        "id": "mediaDb",
+        "path": "E:\\media\\data\\media.sqlite",
+        "exists": true,
+        "readable": true,
+        "kind": "file",
+        "size": 647168,
+        "modifiedAt": "2026-07-16T02:42:04.782Z",
+        "error": "",
+        "sizeLabel": "632 KB"
+      },
+      {
+        "id": "runtimeDb",
+        "path": "E:\\media\\data\\runtime.sqlite",
+        "exists": true,
+        "readable": true,
+        "kind": "file",
+        "size": 36864,
+        "modifiedAt": "2026-07-16T02:41:05.518Z",
+        "error": "",
+        "sizeLabel": "36.0 KB"
+      },
+      {
+        "id": "scanStatus",
+        "path": "E:\\media\\data\\scan-status.json",
+        "exists": true,
+        "readable": true,
+        "kind": "file",
+        "size": 323,
+        "modifiedAt": "2026-07-16T02:41:05.660Z",
+        "error": "",
+        "sizeLabel": "323 B"
+      },
+      {
+        "id": "liveStreams",
+        "path": "E:\\media\\data\\live-streams",
+        "exists": true,
+        "readable": true,
+        "kind": "directory",
+        "size": 0,
+        "modifiedAt": "2026-07-16T02:28:01.999Z",
+        "error": "",
+        "sizeLabel": "0 B"
+      },
+      {
+        "id": "transcodes",
+        "path": "E:\\media\\data\\transcodes",
+        "exists": false,
+        "readable": false,
+        "kind": "missing",
+        "size": 0,
+        "modifiedAt": null,
+        "error": "غير موجود",
+        "sizeLabel": "0 B"
+      }
+    ],
+    "recommendations": [
+      {
+        "level": "warning",
+        "title": "FFprobe غير جاهز",
+        "detail": "spawnSync runtime\\ffmpeg\\bin\\ffprobe.exe ETIMEDOUT"
+      },
+      {
+        "level": "warning",
+        "title": "لا توجد مكتبات",
+        "detail": "أضف مكتبة واحدة على الأقل لتظهر الأفلام والمسلسلات والصوتيات."
+      },
+      {
+        "level": "warning",
+        "title": "سر الجلسة افتراضي",
+        "detail": "غيّر sessionSecret لاحقًا لأمان أعلى."
+      },
+      {
+        "level": "info",
+        "title": "الرابط الخارجي غير مضبوط",
+        "detail": "أضف Public Base URL إذا كنت ستفتح النظام أو WebRTC من أجهزة أخرى."
+      }
+    ],
+    "readinessScore": 60,
+    "profiles": [
+      {
+        "id": "recommended",
+        "title": "موصى به",
+        "description": "أفضل توازن بين المكتبات والبث وسهولة الإدارة."
+      },
+      {
+        "id": "performance",
+        "title": "أداء خفيف",
+        "description": "تقليل الحمل على المعالج والشبكة للأجهزة الأضعف."
+      },
+      {
+        "id": "quality",
+        "title": "جودة عالية",
+        "description": "أفضل جودة عرض مع بقاء النظام منظمًا للمكتبات."
+      },
+      {
+        "id": "live",
+        "title": "بث مباشر",
+        "description": "مناسب عندما تكون الأولوية لاستقرار القنوات وأجهزة الالتقاط."
+      }
+    ]
+  },
+  "liveStatus": [
+    {
+      "id": "iptv-main",
+      "name": "القناة الثانية",
+      "channelName": "القناة الثانية",
+      "sourceType": "hls",
+      "autoStart": true,
+      "state": "running",
+      "startedAt": "2026-07-16T02:30:33.488Z",
+      "stoppedAt": null,
+      "pid": 15140,
+      "streamUrl": "/live-streams/iptv-main/index.m3u8",
+      "message": "[vist#0:0/h264 @ 00000189b9205780] [dec:h264 @ 00000189b7388540] corrupt decoded frame",
+      "errorDetail": "[vist#0:0/h264 @ 00000189b9205780] [dec:h264 @ 00000189b7388540] corrupt decoded frame",
+      "outputDir": "E:\\media\\data\\live-streams\\iptv-main",
+      "appliedResolution": "480p",
+      "appliedScaleFilter": "scale=854:480:force_original_aspect_ratio=decrease,pad=854:480:(ow-iw)/2:(oh-ih)/2:black,setsar=1",
+      "appliedVideoEncoder": "CPU / libx264",
+      "appliedHlsTime": 2,
+      "appliedHlsListSize": 6,
+      "requestedHwAccel": "cpu",
+      "requestedVideoEncoder": "CPU / libx264",
+      "relayMode": "",
+      "probeSummary": "",
+      "egress": null
+    },
+    {
+      "id": "source-1782768309730",
+      "name": "القناة الاولى",
+      "channelName": "القناة الاولى",
+      "sourceType": "hls",
+      "autoStart": true,
+      "state": "running",
+      "startedAt": "2026-07-16T02:39:29.529Z",
+      "stoppedAt": null,
+      "pid": 11272,
+      "streamUrl": "/live-streams/source-1782768309730/index.m3u8",
+      "message": "[h264 @ 0000023b69e2d840] non-existing PPS 0 referenced\r\n[h264 @ 0000023b69e2d840] no frame!",
+      "errorDetail": "[h264 @ 0000023b69e2d840] non-existing PPS 0 referenced\r\n[h264 @ 0000023b69e2d840] no frame!",
+      "outputDir": "E:\\media\\data\\live-streams\\source-1782768309730",
+      "appliedResolution": "480p",
+      "appliedScaleFilter": "scale=854:480:force_original_aspect_ratio=decrease,pad=854:480:(ow-iw)/2:(oh-ih)/2:black,setsar=1",
+      "appliedVideoEncoder": "CPU / libx264",
+      "appliedHlsTime": 2,
+      "appliedHlsListSize": 6,
+      "requestedHwAccel": "cpu",
+      "requestedVideoEncoder": "CPU / libx264",
+      "relayMode": "",
+      "probeSummary": "",
+      "egress": null
+    }
+  ],
+  "sourceTestResults": {
+    "source-1781236833928": {
+      "ok": true,
+      "sourceType": "hls",
+      "resolvedInputUrl": "http://192.168.3.2:8000/play/a00o/index.m3u8",
+      "testedAt": "2026-06-12T05:15:31.990Z",
+      "playlistReachable": true,
+      "segmentReachable": true,
+      "playlist": {
+        "ok": true,
+        "url": "http://192.168.3.2:8000/play/a00o/index.m3u8",
+        "finalUrl": "http://192.168.3.2:8000/play/a00o/index.m3u8",
+        "status": 200,
+        "contentType": "application/vnd.apple.mpegURL",
+        "lineCount": 3,
+        "variantPlaylistUrl": "http://192.168.3.2:8000/play/a00o/62057721.m3u8",
+        "nested": {
+          "ok": true,
+          "url": "http://192.168.3.2:8000/play/a00o/62057721.m3u8",
+          "finalUrl": "http://192.168.3.2:8000/play/a00o/62057721.m3u8",
+          "status": 200,
+          "contentType": "application/vnd.apple.mpegURL",
+          "lineCount": 12,
+          "firstMediaUrl": "http://192.168.3.2:8000/play/a00o/203404521_ca97.ts"
+        },
+        "firstMediaUrl": "http://192.168.3.2:8000/play/a00o/203404521_ca97.ts"
+      },
+      "segment": {
+        "ok": true,
+        "status": 200,
+        "finalUrl": "http://192.168.3.2:8000/play/a00o/203404521_ca97.ts",
+        "contentType": "video/MP2T"
+      },
+      "probe": {
+        "ok": true,
+        "ffprobePath": "runtime\\ffmpeg\\bin\\ffprobe.exe",
+        "formatName": "hls",
+        "videoCodec": "h264",
+        "audioCodec": "mp2",
+        "browserFriendlyVideo": true,
+        "browserFriendlyAudio": false,
+        "streamSummary": "video:h264, audio:mp2",
+        "browserFriendly": false
+      },
+      "message": "ملف HLS وأول segment متاحان من هذا الجهاز. قد يعمل المصدر في VLC أكثر من المتصفح لأن الترميز الحالي video:h264, audio:mp2 أقل توافقًا من H.264/AAC.",
+      "loading": false
+    },
+    "source-1781236650955": {
+      "ok": true,
+      "sourceType": "hls",
+      "resolvedInputUrl": "http://192.168.3.2:8000/play/a00p/index.m3u8",
+      "testedAt": "2026-06-12T20:00:19.495Z",
+      "playlistReachable": true,
+      "segmentReachable": true,
+      "playlist": {
+        "ok": true,
+        "url": "http://192.168.3.2:8000/play/a00p/index.m3u8",
+        "finalUrl": "http://192.168.3.2:8000/play/a00p/index.m3u8",
+        "status": 200,
+        "contentType": "application/vnd.apple.mpegURL",
+        "lineCount": 3,
+        "variantPlaylistUrl": "http://192.168.3.2:8000/play/a00p/24908397.m3u8",
+        "nested": {
+          "ok": true,
+          "url": "http://192.168.3.2:8000/play/a00p/24908397.m3u8",
+          "finalUrl": "http://192.168.3.2:8000/play/a00p/24908397.m3u8",
+          "status": 200,
+          "contentType": "application/vnd.apple.mpegURL",
+          "lineCount": 12,
+          "firstMediaUrl": "http://192.168.3.2:8000/play/a00p/203457609_e72b.ts"
+        },
+        "firstMediaUrl": "http://192.168.3.2:8000/play/a00p/203457609_e72b.ts"
+      },
+      "segment": {
+        "ok": true,
+        "status": 200,
+        "finalUrl": "http://192.168.3.2:8000/play/a00p/203457609_e72b.ts",
+        "contentType": "video/MP2T"
+      },
+      "probe": {
+        "ok": true,
+        "ffprobePath": "runtime\\ffmpeg\\bin\\ffprobe.exe",
+        "formatName": "hls",
+        "videoCodec": "h264",
+        "audioCodec": "mp2",
+        "browserFriendlyVideo": true,
+        "browserFriendlyAudio": false,
+        "streamSummary": "video:h264, audio:mp2",
+        "browserFriendly": false
+      },
+      "message": "ملف HLS وأول segment متاحان من هذا الجهاز. قد يعمل المصدر في VLC أكثر من المتصفح لأن الترميز الحالي video:h264, audio:mp2 أقل توافقًا من H.264/AAC.",
+      "loading": false
+    },
+    "iptv-main": {
+      "ok": true,
+      "sourceType": "hls",
+      "resolvedInputUrl": "http://192.168.3.2:8000/play/a00p/index.m3u8",
+      "configuredInputUrl": "http://192.168.3.2:8000/play/a00p/index.m3u8",
+      "testedAt": "2026-06-29T21:34:20.681Z",
+      "playlistReachable": true,
+      "segmentReachable": true,
+      "playlist": {
+        "ok": true,
+        "url": "http://192.168.3.2:8000/play/a00p/index.m3u8",
+        "finalUrl": "http://192.168.3.2:8000/play/a00p/index.m3u8",
+        "status": 200,
+        "contentType": "application/vnd.apple.mpegURL",
+        "lineCount": 3,
+        "variantPlaylistUrl": "http://192.168.3.2:8000/play/a00p/56380148.m3u8",
+        "nested": {
+          "ok": true,
+          "url": "http://192.168.3.2:8000/play/a00p/56380148.m3u8",
+          "finalUrl": "http://192.168.3.2:8000/play/a00p/56380148.m3u8",
+          "status": 200,
+          "contentType": "application/vnd.apple.mpegURL",
+          "lineCount": 12,
+          "firstMediaUrl": "http://192.168.3.2:8000/play/a00p/204932049_5ad0.ts"
+        },
+        "firstMediaUrl": "http://192.168.3.2:8000/play/a00p/204932049_5ad0.ts"
+      },
+      "segment": {
+        "ok": true,
+        "status": 200,
+        "finalUrl": "http://192.168.3.2:8000/play/a00p/204932049_5ad0.ts",
+        "contentType": "video/MP2T"
+      },
+      "probe": {
+        "ok": true,
+        "ffprobePath": "runtime\\ffmpeg\\bin\\ffprobe.exe",
+        "formatName": "hls",
+        "videoCodec": "h264",
+        "audioCodec": "mp2",
+        "browserFriendlyVideo": true,
+        "browserFriendlyAudio": false,
+        "streamSummary": "video:h264, audio:mp2",
+        "browserFriendly": false
+      },
+      "message": "ملف HLS وأول segment متاحان من هذا الجهاز. قد يعمل المصدر في VLC أكثر من المتصفح لأن الترميز الحالي video:h264, audio:mp2 أقل توافقًا من H.264/AAC.",
+      "loading": false
+    },
+    "source-1783007463124": {
+      "ok": true,
+      "sourceType": "hls",
+      "resolvedInputUrl": "http://192.168.3.2:8000/play/a00q/index.m3u8",
+      "configuredInputUrl": "http://192.168.3.2:8000/play/a00q/index.m3u8",
+      "testedAt": "2026-07-02T16:42:52.744Z",
+      "playlistReachable": true,
+      "segmentReachable": true,
+      "playlist": {
+        "ok": true,
+        "url": "http://192.168.3.2:8000/play/a00q/index.m3u8",
+        "finalUrl": "http://192.168.3.2:8000/play/a00q/index.m3u8",
+        "status": 200,
+        "contentType": "application/vnd.apple.mpegURL",
+        "lineCount": 3,
+        "variantPlaylistUrl": "http://192.168.3.2:8000/play/a00q/88009803.m3u8",
+        "nested": {
+          "ok": true,
+          "url": "http://192.168.3.2:8000/play/a00q/88009803.m3u8",
+          "finalUrl": "http://192.168.3.2:8000/play/a00q/88009803.m3u8",
+          "status": 200,
+          "contentType": "application/vnd.apple.mpegURL",
+          "lineCount": 12,
+          "firstMediaUrl": "http://192.168.3.2:8000/play/a00q/205173762_46cb.ts"
+        },
+        "firstMediaUrl": "http://192.168.3.2:8000/play/a00q/205173762_46cb.ts"
+      },
+      "segment": {
+        "ok": true,
+        "status": 200,
+        "finalUrl": "http://192.168.3.2:8000/play/a00q/205173762_46cb.ts",
+        "contentType": "video/MP2T"
+      },
+      "probe": {
+        "ok": true,
+        "ffprobePath": "runtime\\ffmpeg\\bin\\ffprobe.exe",
+        "formatName": "hls",
+        "videoCodec": "h264",
+        "audioCodec": "mp2",
+        "browserFriendlyVideo": true,
+        "browserFriendlyAudio": false,
+        "streamSummary": "video:h264, audio:mp2",
+        "browserFriendly": false
+      },
+      "message": "ملف HLS وأول segment متاحان من هذا الجهاز. قد يعمل المصدر في VLC أكثر من المتصفح لأن الترميز الحالي video:h264, audio:mp2 أقل توافقًا من H.264/AAC.",
+      "loading": false
+    },
+    "source-1783018084341": {
+      "ok": true,
+      "sourceType": "hls",
+      "resolvedInputUrl": "http://13.140.180.9/live-streams/source-1783015731966/index.m3u8",
+      "configuredInputUrl": "http://13.140.180.9/live-streams/source-1783015731966/index.m3u8",
+      "testedAt": "2026-07-02T19:01:59.007Z",
+      "playlistReachable": true,
+      "segmentReachable": true,
+      "playlist": {
+        "ok": true,
+        "url": "http://13.140.180.9/live-streams/source-1783015731966/index.m3u8",
+        "finalUrl": "http://13.140.180.9/live-streams/source-1783015731966/index.m3u8",
+        "status": 200,
+        "contentType": "application/vnd.apple.mpegurl",
+        "lineCount": 24,
+        "firstMediaUrl": "http://13.140.180.9/live-streams/source-1783015731966/segment-1783018481.ts"
+      },
+      "segment": {
+        "ok": true,
+        "status": 200,
+        "finalUrl": "http://13.140.180.9/live-streams/source-1783015731966/segment-1783018481.ts",
+        "contentType": "video/mp2t"
+      },
+      "probe": {
+        "ok": true,
+        "ffprobePath": "runtime\\ffmpeg\\bin\\ffprobe.exe",
+        "formatName": "hls",
+        "videoCodec": "h264",
+        "audioCodec": "aac",
+        "browserFriendlyVideo": true,
+        "browserFriendlyAudio": true,
+        "streamSummary": "video:h264, audio:aac",
+        "browserFriendly": true
+      },
+      "message": "ملف HLS وأول segment متاحان من هذا الجهاز.",
+      "loading": false
+    },
+    "source-1782768309730": {
+      "ok": true,
+      "sourceType": "hls",
+      "resolvedInputUrl": "http://192.168.3.2:8000/play/a00o/index.m3u8",
+      "configuredInputUrl": "http://192.168.3.2:8000/play/a00o/index.m3u8",
+      "testedAt": "2026-07-04T21:47:28.885Z",
+      "playlistReachable": true,
+      "segmentReachable": true,
+      "playlist": {
+        "ok": true,
+        "url": "http://192.168.3.2:8000/play/a00o/index.m3u8",
+        "finalUrl": "http://192.168.3.2:8000/play/a00o/index.m3u8",
+        "status": 200,
+        "contentType": "application/vnd.apple.mpegURL",
+        "lineCount": 3,
+        "variantPlaylistUrl": "http://192.168.3.2:8000/play/a00o/46314028.m3u8",
+        "nested": {
+          "ok": true,
+          "url": "http://192.168.3.2:8000/play/a00o/46314028.m3u8",
+          "finalUrl": "http://192.168.3.2:8000/play/a00o/46314028.m3u8",
+          "status": 200,
+          "contentType": "application/vnd.apple.mpegURL",
+          "lineCount": 12,
+          "firstMediaUrl": "http://192.168.3.2:8000/play/a00o/205364840_1b54.ts"
+        },
+        "firstMediaUrl": "http://192.168.3.2:8000/play/a00o/205364840_1b54.ts"
+      },
+      "segment": {
+        "ok": true,
+        "status": 200,
+        "finalUrl": "http://192.168.3.2:8000/play/a00o/205364840_1b54.ts",
+        "contentType": "video/MP2T"
+      },
+      "probe": {
+        "ok": true,
+        "ffprobePath": "runtime\\ffmpeg\\bin\\ffprobe.exe",
+        "formatName": "hls",
+        "videoCodec": "h264",
+        "audioCodec": "mp2",
+        "browserFriendlyVideo": true,
+        "browserFriendlyAudio": false,
+        "streamSummary": "video:h264, audio:mp2",
+        "browserFriendly": false
+      },
+      "message": "ملف HLS وأول segment متاحان من هذا الجهاز. قد يعمل المصدر في VLC أكثر من المتصفح لأن الترميز الحالي video:h264, audio:mp2 أقل توافقًا من H.264/AAC.",
+      "loading": false
+    },
+    "source-1783746493507": {
+      "ok": false,
+      "sourceType": "hls",
+      "resolvedInputUrl": "http://re.ycn-redirect.online/live/610303030/index.m3u8?t=SxdVJyW3FhayKkwkbBgNeg&e=1783763215",
+      "configuredInputUrl": "http://re.ycn-redirect.online/live/610303030/index.m3u8?t=SxdVJyW3FhayKkwkbBgNeg&e=1783763215",
+      "testedAt": "2026-07-11T05:15:44.147Z",
+      "playlistReachable": false,
+      "segmentReachable": false,
+      "playlist": {
+        "ok": false,
+        "url": "http://re.ycn-redirect.online/live/610303030/index.m3u8?t=SxdVJyW3FhayKkwkbBgNeg&e=1783763215",
+        "finalUrl": "http://h25.streamixa.online/live/610303030/index.m3u8?t=SxdVJyW3FhayKkwkbBgNeg&e=1783763215",
+        "status": 403,
+        "contentType": "text/html",
+        "lineCount": 7
+      },
+      "segment": null,
+      "probe": {
+        "ok": false,
+        "error": "http://re.ycn-redirect.online/live/610303030/index.m3u8?t=SxdVJyW3FhayKkwkbBgNeg&e=1783763215: Server returned 403 Forbidden (access denied)",
+        "ffprobePath": "runtime\\ffmpeg\\bin\\ffprobe.exe"
+      },
+      "message": "تعذر الوصول إلى ملف HLS من هذا الجهاز.",
+      "loading": false
+    }
+  },
+  "football": {
+    "autoImport": true,
+    "importOnStartup": true,
+    "intervalHours": 6,
+    "maxNewsItems": 80,
+    "newsFeeds": [
+      {
+        "name": "Google News Arabic Football",
+        "url": "https://news.google.com/rss/search?q=%D9%83%D8%B1%D8%A9%20%D8%A7%D9%84%D9%82%D8%AF%D9%85&hl=ar&gl=SA&ceid=SA:ar"
+      },
+      {
+        "name": "Google News Arabic World Cup",
+        "url": "https://news.google.com/rss/search?q=%D9%83%D8%A3%D8%B3%20%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85%202026&hl=ar&gl=SA&ceid=SA:ar"
+      },
+      {
+        "name": "BBC Sport Football",
+        "url": "https://feeds.bbci.co.uk/sport/football/rss.xml"
+      },
+      {
+        "name": "ESPN Soccer",
+        "url": "https://www.espn.com/espn/rss/soccer/news"
+      }
+    ],
+    "trackedProfiles": [
+      {
+        "type": "club",
+        "name": "Real Madrid CF",
+        "title": ""
+      },
+      {
+        "type": "club",
+        "name": "FC Barcelona",
+        "title": ""
+      },
+      {
+        "type": "club",
+        "name": "Manchester City F.C.",
+        "title": ""
+      },
+      {
+        "type": "club",
+        "name": "Liverpool F.C.",
+        "title": ""
+      },
+      {
+        "type": "club",
+        "name": "Paris Saint-Germain F.C.",
+        "title": ""
+      },
+      {
+        "type": "club",
+        "name": "FC Bayern Munich",
+        "title": ""
+      },
+      {
+        "type": "player",
+        "name": "Lionel Messi",
+        "title": ""
+      },
+      {
+        "type": "player",
+        "name": "Cristiano Ronaldo",
+        "title": ""
+      },
+      {
+        "type": "player",
+        "name": "Kylian Mbappe",
+        "title": ""
+      },
+      {
+        "type": "player",
+        "name": "Erling Haaland",
+        "title": ""
+      }
+    ],
+    "lastImportAt": "2026-07-16T02:00:24.286Z",
+    "lastImportSummary": {
+      "reason": "startup",
+      "newsImported": 250,
+      "profilesImported": 33,
+      "errors": [
+        "Real Madrid CF: The operation was aborted due to timeout",
+        "3A/B/C/D/F: Wikipedia HTTP 404",
+        "3A/E/H/I/J: Wikipedia HTTP 404",
+        "3B/E/F/I/J: Wikipedia HTTP 404",
+        "3C/D/F/G/H: Wikipedia HTTP 404",
+        "3C/E/F/H/I: Wikipedia HTTP 404",
+        "3D/E/I/J/L: Wikipedia HTTP 404"
+      ]
+    }
+  },
+  "rtmpServer": {
+    "enabled": false,
+    "host": "0.0.0.0",
+    "port": 1936,
+    "appName": "live",
+    "streamKey": "rtmp-ingest-main",
+    "publicHost": "",
+    "httpEnabled": false,
+    "httpPort": 8088
+  },
+  "rtmpIngestStatus": {
+    "enabled": false,
+    "running": false,
+    "error": "خادم RTMP الداخلي معطّل من الإعدادات.",
+    "startedAt": null,
+    "bind": "0.0.0.0",
+    "port": 1936,
+    "appName": "live",
+    "streamKey": "rtmp-ingest-main",
+    "localPublishUrl": "rtmp://127.0.0.1:1936/live/rtmp-ingest-main",
+    "publishUrl": "rtmp://SERVER-IP:1936/live/rtmp-ingest-main",
+    "activeStreams": []
+  },
+  "yacineTv": {
+    "enabled": true,
+    "refreshOnStartup": true,
+    "scanAfterRefresh": true,
+    "refreshIntervalHours": 2
+  },
+  "yacineTvStatus": {
+    "enabled": true,
+    "running": false,
+    "source": {
+      "id": "yacine-tv-auto",
+      "name": "Yacine TV Auto",
+      "sourceType": "m3u",
+      "m3uPath": "data\\yacine-tv-auto.m3u",
+      "epgPath": "",
+      "m3uInputMode": "playlist",
+      "groupTitle": "Yacine TV",
+      "channelName": "Yacine TV Auto",
+      "deviceName": "",
+      "audioDeviceName": "",
+      "deliveryMode": "hls",
+      "streamUrl": "",
+      "inputUrl": "",
+      "webrtcEmbedUrl": "",
+      "logo": "",
+      "description": "Auto-refreshed Yacine TV playlist",
+      "requestHeaders": {},
+      "userAgent": "",
+      "referer": "",
+      "enabled": true,
+      "autoStart": true,
+      "showOnHome": true,
+      "resolutionPreset": "source",
+      "outputWidth": 0,
+      "outputHeight": 0,
+      "hlsTime": 1,
+      "hlsListSize": 0,
+      "videoBitrate": "",
+      "maxRate": "",
+      "bufSize": "",
+      "audioBitrate": "",
+      "frameRate": 0,
+      "hwAccel": "cpu",
+      "relayMode": "copy",
+      "ffmpegPath": "",
+      "ffmpegInput": "",
+      "ffmpegCommand": "",
+      "rtmpIngest": false,
+      "rtmpStreamKey": "",
+      "skipStartupProbe": true,
+      "egressEnabled": false,
+      "egressType": "srt",
+      "egressUrl": "",
+      "egressVideoMode": "same",
+      "egressHwAccel": "same",
+      "egressResolutionPreset": "same",
+      "egressOutputWidth": 0,
+      "egressOutputHeight": 0,
+      "egressVideoBitrate": "",
+      "egressMaxRate": "",
+      "egressBufSize": "",
+      "egressAudioBitrate": "",
+      "egressFrameRate": 0,
+      "egressLowLatency": true,
+      "egressFifo": true,
+      "egressFifoQueue": 600,
+      "egressHlsTime": 0,
+      "egressHlsListSize": 0
+    },
+    "status": {
+      "ok": true,
+      "sourceId": "yacine-tv-auto",
+      "apiBase": "http://ver3.yacinelive.com/api/",
+      "outputPath": "E:\\media\\data\\yacine-tv-auto.m3u",
+      "startedAt": "2026-07-16T02:33:18.486Z",
+      "finishedAt": "2026-07-16T02:33:41.324Z",
+      "categories": 37,
+      "channels": 692,
+      "events": 1,
+      "hlsEntries": 560,
+      "errors": {
+        "categories": [],
+        "channels": [],
+        "events": []
+      }
+    }
+  }
+}

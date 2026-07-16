@@ -1,0 +1,77 @@
+﻿{
+  "server": {
+    "port": 80,
+    "host": "0.0.0.0",
+    "sessionSecret": "change-me-now"
+  },
+  "rtmpServer": {
+    "enabled": true,
+    "host": "0.0.0.0",
+    "port": 1936,
+    "appName": "live",
+    "streamKey": "rtmp-ingest-main",
+    "publicHost": "",
+    "httpEnabled": false,
+    "httpPort": 8088
+  },
+  "system": {
+    "name": "استراحة",
+    "iconText": "⭐",
+    "logoUrl": "",
+    "homeMessage": "مرحبا بكم في الاستراحة الخاصة بنا"
+  },
+  "admin": {
+    "username": "admin",
+    "password": "123123123"
+  },
+  "performance": {
+    "pageSize": 20,
+    "newestLimit": 10
+  },
+  "bandwidth": {
+    "enabled": false,
+    "limitKBps": 0,
+    "burstSeconds": 3,
+    "applyToMedia": true,
+    "applyToLive": true,
+    "applyToTranscode": true
+  },
+  "mediaTranscode": {
+    "hwAccel": "auto",
+    "qualityProfile": "balanced",
+    "audioBitrate": "160k",
+    "hlsTime": 4,
+    "hlsListSize": 10
+  },
+  "libraries": [],
+  "iptv": {
+    "sources": []
+  },
+  "auth": {
+    "allowSelfRegistration": true,
+    "requireLoginForViewing": false,
+    "autoRegisterDevices": true
+  },
+  "scan": {
+    "autoStartOnEmptyIndex": false,
+    "yieldEvery": 200,
+    "statusUpdateEvery": 100,
+    "followSymlinks": false,
+    "autoDailyTwice": false,
+    "scheduleTimes": [],
+    "lastScheduledRuns": {}
+  },
+  "usbCapture": {
+    "ffmpegPath": "runtime/ffmpeg/bin/ffmpeg.exe",
+    "outputRoot": "",
+    "publicBaseUrl": "",
+    "publicBasePath": "/live-streams",
+    "hlsTime": 1,
+    "hlsListSize": 4,
+    "videoBitrate": "2500k",
+    "maxRate": "2500k",
+    "bufSize": "3500k",
+    "audioBitrate": "96k",
+    "frameRate": 30
+  }
+}
